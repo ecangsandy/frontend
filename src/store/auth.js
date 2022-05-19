@@ -1,4 +1,5 @@
 //auth.js
+import axios from 'axios'
 export default {
     state: {
         user: null,
