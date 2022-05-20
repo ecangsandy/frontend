@@ -15,13 +15,43 @@
         </li>
       </ul>
       <ul class="navbar-nav">
-        <li class="nav-item">
-          <router-link class="nav-link" to="/login">Login</router-link>
-        </li>
-        <li class="nav-item">
-          <router-link class="nav-link" to="/register">Register</router-link>
-        </li>
+        <template v-if="isLoggedIn">
+          <li class="nav-item">
+            <router-link class="nav-link" to="/profile">{{user.name}}</router-link>
+          </li>
+         <li class="nav-item">
+    <a class="nav-link" @click="logout">Logout</a>
+  </li>
+          
+        </template>
+        <template v-else>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/login">Login</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/register">Register</router-link>
+          </li>
+        </template>
       </ul>
     </div>
   </nav>
 </template>
+<script>
+ import { mapGetters } from 'vuex'
+  
+  export default {
+    computed: {
+      ...mapGetters({ 
+        isLoggedIn: 'isLoggedIn',
+        user: 'user',
+      })
+    },
+    methods:{
+      logout() {
+  this.$store.dispatch("logout").then(() => {
+  this.$router.push("/");
+ });
+    }
+  }
+  }
+</script>

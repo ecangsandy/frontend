@@ -54,10 +54,11 @@ export default {
       this.$store
         .dispatch("login", this.form)
         .then((response) => {
-          console.log(response);
-          this.$router.push({ name: "Home" });
+          // console.log(response);
+          this.$router.push({ name: "home" });
         })
         .catch((error) => {
+          // console.log('err: '+error);
           this.errors = error.response.data.errors;
         });
     },

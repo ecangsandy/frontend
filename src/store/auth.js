@@ -1,4 +1,7 @@
 //auth.js
+import axios from 'axios'
+import { setHeaderToken } from '../../utils/auth'
+// import { utils } from '../../utils/auth'
 export default {
     state: {
         user: null,
@@ -42,17 +45,28 @@ export default {
         },
         async get_user({ commit }) {
             if (!localStorage.getItem('token')) {
+                console.log('asy:' + commit);
                 return
             }
             try {
                 let response = await axios.get('user')
-                commit('set_user', response.data.data)
+                commit('set_user', response.data)
+                console.log('asy:' + response);
             } catch (error) {
                 commit('reset_user')
                 removeHeaderToken()
                 localStorage.removeItem('token')
                 return error
             }
+        },
+        logout({ commit }) {
+            return new Promise((resolve) => {
+                commit('reset_user')
+                localStorage.removeItem('token')
+                removeHeaderToken()
+                delete axios.defaults.headers.common["Authorization"];
+                resolve()
+            })
         }
     }
 }
